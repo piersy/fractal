@@ -21,9 +21,25 @@ type cn struct {
 }
 
 func main() {
-
 	flag.Parse()
 	im := image.NewGray(image.Rectangle{image.Point{0, 0}, image.Point{1000, 1000}})
+
+	GenerateFractal(im)
+	f, err := os.Create("./output.png")
+	defer f.Close()
+	if err != nil {
+
+		println(err)
+	}
+	png.Encode(f, im)
+}
+
+func square(x float64) float64 {
+	return x * x
+}
+
+func GenerateFractal(im *image.Gray) {
+
 	z := &cn{}
 
 	c := &cn{}
@@ -55,15 +71,4 @@ func main() {
 
 		}
 	}
-
-	f, err := os.Create("./output.png")
-	defer f.Close()
-	if err != nil {
-
-		println(err)
-	}
-	png.Encode(f, im)
-}
-func square(x float64) float64 {
-	return x * x
 }
